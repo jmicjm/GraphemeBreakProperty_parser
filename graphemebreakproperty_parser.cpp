@@ -128,7 +128,11 @@ int main(int argc, char** argv)
 	}
 	input.close();
 
-	std::sort(grapheme_ranges.begin(), grapheme_ranges.end(), [](grapheme_range_info l, grapheme_range_info r) {return l.start < r.start; });
+	std::sort(grapheme_ranges.begin(), grapheme_ranges.end(),
+			[](grapheme_range_info l, grapheme_range_info r) 
+			{
+				return std::stoi(l.start, nullptr, 16) < std::stoi(r.start, nullptr, 16); 
+			});
 
 //writing to output file
 	std::ofstream output(output_name);
