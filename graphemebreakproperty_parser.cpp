@@ -5,6 +5,15 @@
 #include <algorithm>
 #include <cctype>
 
+constexpr char* def_in_name = "GraphemeBreakProperty.txt";
+constexpr char* def_out_name = "grapheme_ranges.h";
+
+constexpr char* in_arg = "-i";
+constexpr char* out_arg = "-o";
+constexpr char* upperc_arg = "-u";
+constexpr char* begin_txt_arg = "-b";
+constexpr char* end_txt_arg = "-e";
+
 
 struct grapheme_range_info
 {
@@ -24,7 +33,7 @@ int main(int argc, char** argv)
 		std::exit(1);
 	};
 
-	auto findArg = [argv, argc](const char* arg)
+	auto findArg = [=](const char* arg)
 	{
 		for (int i = 0; i < argc; i++)
 		{
@@ -33,41 +42,37 @@ int main(int argc, char** argv)
 		return -1;
 	};
 
-	auto argExist = [findArg](const char* arg)
+	auto argExist = [=](const char* arg)
 	{
-		if (findArg(arg) >= 0) { return true; }
-		else { return false; }
+		return findArg(arg) >= 0;
 	};
 
-	auto getArgStr = [findArg, invalidArgMsg, argc, argv](const char* arg, std::string &str)
+	auto getArgStr = [=](const char* arg, std::string &str)
 	{
-		if (findArg(arg) >= 0)
-		{
-			int pos = findArg(arg) + 1;
-			if (pos < argc)
+			int arg_str_pos = findArg(arg) + 1;
+			if (arg_str_pos < argc)
 			{
-				if (argv[pos][0] != '-')
+				if (argv[arg_str_pos][0] != '-')
 				{
-					str = argv[pos];
+					str = argv[arg_str_pos];
 				}
 				else { invalidArgMsg(); }
 			}
 			else { invalidArgMsg(); }
-		}
 	};
 
-	if (argExist("-i")) { getArgStr("-i", input_name); }
-	else { input_name = "GraphemeBreakProperty.txt"; }
+	if (argExist(in_arg)) { getArgStr(in_arg, input_name); }
+	else { input_name = def_in_name; }
 	
-	if (argExist("-o")) { getArgStr("-o", output_name); }
-	else { output_name = "grapheme_ranges.h"; }
+	if (argExist(out_arg)) { getArgStr(out_arg, output_name); }
+	else { output_name = def_out_name; }
 
-	if (argExist("-u")) { use_upper_case = true; }
+	if (argExist(upperc_arg)) { use_upper_case = true; }
 	else { use_upper_case = false; }
 
-	if (argExist("-b")) { getArgStr("-b", begin_text); }
+	if (argExist(begin_txt_arg)) { getArgStr(begin_txt_arg, begin_text); }
 		
-	if (argExist("-e")) { getArgStr("-e", end_text); }
+	if (argExist(end_txt_arg)) { getArgStr(end_txt_arg, end_text); }
 
 
 //parsing input file
@@ -76,7 +81,7 @@ int main(int argc, char** argv)
 	std::ifstream input(input_name);
 	if (!input.good())
 	{
-		std::cout << "input file error" << std::endl;
+		std::cout << "input error" << std::endl;
 		return 1;
 	}
 
@@ -138,7 +143,7 @@ int main(int argc, char** argv)
 	std::ofstream output(output_name);
 	if (!output.good())
 	{
-		std::cout << "output file error" << std::endl;
+		std::cout << "output error" << std::endl;
 		return 1;
 	}
 
