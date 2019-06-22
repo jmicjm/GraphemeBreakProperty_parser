@@ -4,15 +4,16 @@
 #include <iostream>
 #include <algorithm>
 #include <cctype>
+#include <cstring>
 
-constexpr char* def_in_name = "GraphemeBreakProperty.txt";
-constexpr char* def_out_name = "grapheme_ranges.h";
+constexpr const char* def_in_name = "GraphemeBreakProperty.txt";
+constexpr const char* def_out_name = "grapheme_ranges.h";
 
-constexpr char* in_arg = "-i";
-constexpr char* out_arg = "-o";
-constexpr char* upperc_arg = "-u";
-constexpr char* begin_txt_arg = "-b";
-constexpr char* end_txt_arg = "-e";
+constexpr const char* in_arg = "-i";
+constexpr const char* out_arg = "-o";
+constexpr const char* upperc_arg = "-u";
+constexpr const char* begin_txt_arg = "-b";
+constexpr const char* end_txt_arg = "-e";
 
 
 struct grapheme_range_info
